@@ -1,0 +1,16 @@
+newmtl blinn4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd TexturesCom_BrownBricks_1024_albedo - Copy.tif
+Ni 1.00
+Ks 0.00 0.00 0.00
+newmtl blinn5SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd TexturesCom_RooftilesMetal0071_2_seamless_S.jpg
+Ni 1.00
+Ks 0.22 0.22 0.22

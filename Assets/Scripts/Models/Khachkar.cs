@@ -1,0 +1,36 @@
+﻿using UnityEngine;
+
+[System.Serializable]
+public class AssetProps
+{
+    public float scale = 1.0f;
+    public float rotationX = 0.0f;
+    public float rotationY = 0.0f;
+    public float rotationZ = 0.0f;
+    public float offsetX = 0.0f;
+    public float offsetY = 0.0f;
+    public float offsetZ = 0.0f;
+}
+
+
+[System.Serializable]
+public class Khachkar
+{
+    public int id;
+    public string location;
+    public string landscape;
+    public string accessibility;
+    public string productionPeriod;
+    public string conditionOfPreservation;
+    public string inscription;
+    public string importantFeatures;
+    public string references;
+    public AssetProps assetProps;
+    public static Khachkar CreateFromJSON(string jsonString)
+    {
+        Khachkar khachkar = JsonUtility.FromJson<Khachkar>(jsonString);
+        return khachkar;
+
+    }
+
+}
