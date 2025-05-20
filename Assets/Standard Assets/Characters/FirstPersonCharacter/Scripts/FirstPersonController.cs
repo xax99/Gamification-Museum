@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -29,6 +30,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
+        [SerializeField] private GameObject escMenu;
+        private bool isPaused = false;
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -83,6 +86,23 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
+            
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                /*
+                isPaused = !isPaused;
+                escMenu.SetActive(isPaused);
+                Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
+                Cursor.visible = isPaused;
+
+                if (!isPaused)
+                {
+                    // Reinicia el mouse look si reanudamos
+                    m_MouseLook.Init(transform, m_Camera.transform);
+                }
+                */
+            }
         }
 
 

@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class SimpleJoystickMovement : MonoBehaviour
 {
-    public VariableJoystick moveJoystick;   // Joystick para moverse
-    public VariableJoystick lookJoystick;   // Joystick para rotar la cámara
+    //public GameObject moveJoystickObject;  // GameObject padre del joystick de movimiento
+    public GameObject JoystickObject;  // GameObject padre del joystick de rotación
+
+    public VariableJoystick moveJoystick;
+    public VariableJoystick lookJoystick;
     public float moveSpeed = 5f;
     public float rotationSpeed = 200f;
 
@@ -12,10 +15,18 @@ public class SimpleJoystickMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+
+        // Activar o desactivar joysticks según la plataforma
+        bool isMobile = Application.isMobilePlatform;
+
+        JoystickObject.SetActive(isMobile);
     }
 
     void Update()
     {
+        if (!Application.isMobilePlatform)
+            return; // No hagas nada si no es móvil
+
         // Movimiento
         float moveX = moveJoystick.Horizontal;
         float moveZ = moveJoystick.Vertical;

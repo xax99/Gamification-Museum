@@ -8,7 +8,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuScript : MonoBehaviour
+public class SceneManagerScript : MonoBehaviour
 {
     //public GameObject enterScreen;
     //public GameObject loadScreen;
@@ -45,6 +45,22 @@ public class MainMenuScript : MonoBehaviour
         SceneManager.LoadScene(n, LoadSceneMode.Single);
     }
 
+    public void OpenCredits(String name)
+    {
+        string[] tokens = name.Split('/');
+        string n;
+        if (1 < tokens.Length)
+        {
+            n = tokens[1];
+        }
+        else
+        {
+            n = name;
+        }
+
+        //enterScreen.SetActive(true);
+        SceneManager.LoadScene(n, LoadSceneMode.Single);
+    }
     public void Exit()
     {
         Application.Quit();

@@ -3,7 +3,7 @@ using UnityEngine;
 public class Stone : MonoBehaviour
 {
     public static int collectedStones = 0;
-    public static int totalStones = 4;
+    public static int totalStones = 5;
 
     private bool isPlayerNearby = false;
 
@@ -12,11 +12,32 @@ public class Stone : MonoBehaviour
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.Q))
         {
             collectedStones++;
-            Debug.Log($"[STONE] Piedra recogida. Total: {collectedStones}/{totalStones}");
+            Debug.Log($"[STONE] Stone Collected. Total: {collectedStones}/{totalStones}");
             gameObject.SetActive(false);
             if (collectedStones >= totalStones)
             {
-                Debug.Log("🔓 La puerta se ha abierto.");
+                Debug.Log("🔓 The door has open");
+            }
+        }
+
+        if (isPlayerNearby && Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                // Verificamos si el objeto clickeado es este mismo
+                if (hit.transform == transform)
+                {
+                    collectedStones++;
+                    Debug.Log($"[STONE] Stone Collected. Total: {collectedStones}/{totalStones}");
+                    gameObject.SetActive(false);
+                    if (collectedStones >= totalStones)
+                    {
+                        Debug.Log("🔓 The door has open");
+                    }
+                }
             }
         }
     }
