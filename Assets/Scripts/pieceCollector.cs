@@ -20,26 +20,6 @@ public class Stone : MonoBehaviour
             }
         }
 
-        if (isPlayerNearby && Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                // Verificamos si el objeto clickeado es este mismo
-                if (hit.transform == transform)
-                {
-                    collectedStones++;
-                    Debug.Log($"[STONE] Stone Collected. Total: {collectedStones}/{totalStones}");
-                    gameObject.SetActive(false);
-                    if (collectedStones >= totalStones)
-                    {
-                        Debug.Log("🔓 The door has open");
-                    }
-                }
-            }
-        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -62,4 +42,19 @@ public class Stone : MonoBehaviour
             isPlayerNearby = false;
         }
     }
+
+    void OnMouseDown()
+    {
+        if (true)
+        {
+            collectedStones++;
+            Debug.Log($"[STONE] Stone Collected. Total: {collectedStones}/{totalStones}");
+            gameObject.SetActive(false);
+            if (collectedStones >= totalStones)
+            {
+                Debug.Log("🔓 The door has open");
+            }
+        }
+    }
 }
+

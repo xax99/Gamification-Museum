@@ -20,7 +20,9 @@ public class SimpleJoystickMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
 
         bool isMobile = Application.isMobilePlatform;
-
+        //
+        //isMobile = true;
+        //
         JoystickObject.SetActive(isMobile);
         if (isMobile)
         {

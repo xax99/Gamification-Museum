@@ -1,31 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson; // Importa esto para usar FirstPersonController
 
 public class CubeTextureChanger : MonoBehaviour
 {
-    public Texture[] textures; // Array de texturas (PNG) a usar
+    public Texture[] textures;
+    public Camera cameraUtil;
+    public FirstPersonController fpc; // NUEVO: referencia al controlador FPS
+
     private Renderer cubeRenderer;
     private int currentTextureIndex = 0;
+    private static bool isCameraActive = false;
+
+    private Camera mainCamera;
 
     void Start()
     {
-        // Obtén el Renderer del cubo
         cubeRenderer = GetComponent<Renderer>();
 
-        // Asegúrate de que una textura inicial está asignada
         if (textures.Length > 0)
-        {
             cubeRenderer.material.mainTexture = textures[currentTextureIndex];
+
+        mainCamera = Camera.main;
+
+        if (cameraUtil != null)
+            cameraUtil.gameObject.SetActive(false);
+
+        // Buscar el FirstPersonController automáticamente si no está asignado
+        if (fpc == null)
+        {
+            fpc = FindObjectOfType<FirstPersonController>();
+            if (fpc == null)
+            {
+                Debug.LogWarning("No se encontró un FirstPersonController en la escena.");
+            }
         }
     }
 
     void OnMouseDown()
     {
-        // Cambia al siguiente PNG en el array
-        currentTextureIndex = (currentTextureIndex + 1) % textures.Length;
+        if (!isCameraActive)
+        {
+            if (cameraUtil != null && mainCamera != null)
+            {
+                cameraUtil.gameObject.SetActive(true);
+                mainCamera.gameObject.SetActive(false);
+                isCameraActive = true;
 
-        // Asigna la nueva textura al material del cubo
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
+                if (fpc != null)
+                    fpc.enabled = false; // NUEVO: desactiva el control FPS
+            }
+            return;
+        }
+
+        currentTextureIndex = (currentTextureIndex + 1) % textures.Length;
         cubeRenderer.material.mainTexture = textures[currentTextureIndex];
+    }
+
+    public void ResetToMainCamera()
+    {
+        if (cameraUtil != null && mainCamera != null)
+        {
+            cameraUtil.gameObject.SetActive(false);
+            mainCamera.gameObject.SetActive(true);
+            isCameraActive = false;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            if (fpc != null)
+                fpc.enabled = true; // NUEVO: reactiva el control FPS
+        }
     }
 }

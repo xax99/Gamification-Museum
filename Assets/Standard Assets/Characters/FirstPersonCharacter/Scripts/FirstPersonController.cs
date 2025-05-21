@@ -150,9 +150,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
 
             ProgressStepCycle(speed);
-            UpdateCameraPosition(speed);
 
-            m_MouseLook.UpdateCursorLock();
+            UpdateCameraPosition(speed);
+            if (Camera.current != null && Camera.current.CompareTag("MainCamera")){
+                m_MouseLook.UpdateCursorLock();
+            }
+            
         }
 
 
@@ -276,6 +279,22 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 return;
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
+        }
+
+        public void EnableMouseLook(bool enable)
+        {
+            if (enable)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                m_MouseLook.SetCursorLock(true);  // si tu clase MouseLook lo permite
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                m_MouseLook.SetCursorLock(false); // si tu clase MouseLook lo permite
+            }
         }
     }
 }
