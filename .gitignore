@@ -12,7 +12,7 @@ App/
 UWP/
 project.json
 project.lock.json
-*.mat
+
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
