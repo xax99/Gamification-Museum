@@ -16,7 +16,9 @@ public class MusicManager : MonoBehaviour
     {
         if (audioSource != null && ambientMusic != null)
         {
-            audioSource.clip = ambientMusic;
+            if (audioSource.clip != ambientMusic)
+                audioSource.clip = ambientMusic;
+
             audioSource.loop = true;
             audioSource.Play();
         }
@@ -26,7 +28,29 @@ public class MusicManager : MonoBehaviour
     {
         if (audioSource != null && specialMusic != null)
         {
-            audioSource.clip = specialMusic;
+            if (audioSource.clip != specialMusic)
+                audioSource.clip = specialMusic;
+
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+    }
+
+    public void StopAll()
+    {
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+    }
+
+    public void ResumeAmbient()
+    {
+        if (audioSource != null && ambientMusic != null)
+        {
+            if (audioSource.clip != ambientMusic)
+                audioSource.clip = ambientMusic;
+
             audioSource.loop = true;
             audioSource.Play();
         }

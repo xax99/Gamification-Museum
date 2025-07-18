@@ -68,9 +68,30 @@ public class StoneService : MonoBehaviour
         }
         AssetProps props = StoneSpawnHelper.GetStoneAssetPropsById(stoneId);
         if (addOffset)
-            sp += new Vector3(props.offsetX, props.offsetY, props.offsetZ);
+            sp += new Vector3(props.offsetX, props.offsetY-1, props.offsetZ);
         Quaternion rt = Quaternion.Euler(props.rotationX, props.rotationY, props.rotationZ);
         GameObject obj = Instantiate(this.SearchStone(stoneId), sp, rt);
+
+        ///
+        /// 
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in renderers)
+        {
+            foreach (Material mat in r.materials)
+            {
+                Shader unlitShader = Shader.Find("Unlit/Texture"); // O "Unlit/Color" si no tiene textura
+                if (unlitShader != null)
+                {
+                    mat.shader = unlitShader;
+                }
+                else
+                {
+                    Debug.LogWarning("Unlit shader no encontrado");
+                }
+            }
+        }
+        /// 
+        /// 
         obj.transform.localScale *= props.scale;
 
         doLast?.Invoke();
@@ -101,7 +122,7 @@ public class StoneService : MonoBehaviour
            UnityEngine.Caching.ClearOtherCachedVersions("anything", new Hash128());
         #endif
 
-        loadScreen.SetActive(true);
+        //loadScreen.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -121,6 +142,7 @@ public class StoneService : MonoBehaviour
                     if (uwr.result != UnityWebRequest.Result.Success)
                     {
                         Debug.Log(uwr.error);
+                        Debug.Log(domain + bundleName.metadataBundleName);
                     }
                     else
                     {
@@ -138,6 +160,7 @@ public class StoneService : MonoBehaviour
                     if (uwr.result != UnityWebRequest.Result.Success)
                     {
                         Debug.Log(uwr.error);
+                        Debug.Log(domain + bundleName.stoneBundleName);
                     }
                     else
                     {
@@ -206,7 +229,7 @@ public class StoneService : MonoBehaviour
             StonesValues.stonesThumbs.Sort((Sprite p, Sprite q) => Int32.Parse(p.name) - Int32.Parse(q.name));
         }
 
-        loadScreen.SetActive(false);
+        //SloadScreen.SetActive(false);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }

@@ -60,6 +60,10 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"h: t"
+	"h: t=MeshFil"
+	"h: t=MeshFilter ve"
+	"h: t=MeshFilter vertices>=1024"
 ]
 searchItemFavorites = [
 ]
@@ -70,7 +74,7 @@ expandedQueries = [
 ]
 queryBuilder = true
 ignoredProperties = "id;name;classname;imagecontentshash"
-helperWidgetCurrentArea = "all"
+helperWidgetCurrentArea = "h:"
 disabledIndexers = ""
 minIndexVariations = 2
 findProviderIndexHelper = true

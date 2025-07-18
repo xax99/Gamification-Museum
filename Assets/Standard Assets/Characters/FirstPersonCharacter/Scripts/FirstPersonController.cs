@@ -87,22 +87,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
             
-            if (Input.GetKeyDown(KeyCode.M))
+            /*if (Input.GetKeyDown(KeyCode.M))
             {
                 SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-                /*
-                isPaused = !isPaused;
-                escMenu.SetActive(isPaused);
-                Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
-                Cursor.visible = isPaused;
-
-                if (!isPaused)
-                {
-                    // Reinicia el mouse look si reanudamos
-                    m_MouseLook.Init(transform, m_Camera.transform);
-                }
-                */
+               
             }
+            */
         }
 
 

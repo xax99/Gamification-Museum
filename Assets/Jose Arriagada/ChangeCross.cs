@@ -1,65 +1,89 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.Characters.FirstPerson; // Importa esto para usar FirstPersonController
+using UnityStandardAssets.Characters.FirstPerson;
+using UnityEngine.UI;
 
-public class CubeTextureChanger : MonoBehaviour
+public class CubeModelChanger : MonoBehaviour
 {
-    public Texture[] textures;
+    public GameObject[] modelos;
     public Camera cameraUtil;
-    public FirstPersonController fpc; // NUEVO: referencia al controlador FPS
-
-    private Renderer cubeRenderer;
-    private int currentTextureIndex = 0;
+    public FirstPersonController fpc;
+    public GameObject interactionCanvas;
+    public Collider floorCollider;
+    private int currentModelIndex = 0;
     private static bool isCameraActive = false;
-
     private Camera mainCamera;
+    private bool isPlayerInRange = false;
 
     void Start()
     {
-        cubeRenderer = GetComponent<Renderer>();
-
-        if (textures.Length > 0)
-            cubeRenderer.material.mainTexture = textures[currentTextureIndex];
-
         mainCamera = Camera.main;
 
         if (cameraUtil != null)
             cameraUtil.gameObject.SetActive(false);
 
-        // Buscar el FirstPersonController automáticamente si no está asignado
         if (fpc == null)
         {
             fpc = FindObjectOfType<FirstPersonController>();
             if (fpc == null)
-            {
                 Debug.LogWarning("No se encontró un FirstPersonController en la escena.");
-            }
+        }
+
+        if (interactionCanvas != null)
+            interactionCanvas.SetActive(false);
+
+        // Activar solo el primer modelo
+        for (int i = 0; i < modelos.Length; i++)
+            modelos[i].SetActive(i == currentModelIndex);
+    }
+
+    void Update()
+    {
+        if (isPlayerInRange && !isCameraActive && Input.GetKeyDown(KeyCode.Q))
+        {
+            ActivateCamera();
         }
     }
 
     void OnMouseDown()
     {
         if (!isCameraActive)
-        {
-            if (cameraUtil != null && mainCamera != null)
-            {
-                cameraUtil.gameObject.SetActive(true);
-                mainCamera.gameObject.SetActive(false);
-                isCameraActive = true;
-
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-
-                if (fpc != null)
-                    fpc.enabled = false; // NUEVO: desactiva el control FPS
-            }
             return;
-        }
 
-        currentTextureIndex = (currentTextureIndex + 1) % textures.Length;
-        cubeRenderer.material.mainTexture = textures[currentTextureIndex];
+        // Desactivar modelo actual
+        modelos[currentModelIndex].SetActive(false);
+
+        // Cambiar índice
+        currentModelIndex = (currentModelIndex + 1) % modelos.Length;
+
+        // Activar nuevo modelo
+        modelos[currentModelIndex].SetActive(true);
     }
+
+    public void ActivateCamera()
+    {
+        if (cameraUtil != null && mainCamera != null)
+        {
+            cameraUtil.gameObject.SetActive(true);
+            mainCamera.gameObject.SetActive(false);
+            isCameraActive = true;
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            if (fpc != null)
+                fpc.enabled = false;
+
+            if (interactionCanvas != null)
+                interactionCanvas.SetActive(false);
+
+            // Desactivar el collider del piso
+            if (floorCollider != null)
+                floorCollider.enabled = false;
+        }
+    }
+
 
     public void ResetToMainCamera()
     {
@@ -73,7 +97,32 @@ public class CubeTextureChanger : MonoBehaviour
             Cursor.visible = false;
 
             if (fpc != null)
-                fpc.enabled = true; // NUEVO: reactiva el control FPS
+                fpc.enabled = true;
+
+            // 🟢 Reactivar el collider del piso
+            if (floorCollider != null)
+                floorCollider.enabled = true;
+        }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInRange = true;
+            if (interactionCanvas != null)
+                interactionCanvas.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInRange = false;
+            if (interactionCanvas != null)
+                interactionCanvas.SetActive(false);
         }
     }
 }

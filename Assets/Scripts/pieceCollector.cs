@@ -43,7 +43,7 @@ public class Stone : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
+   /*void OnMouseDown()
     {
         if (true)
         {
@@ -55,6 +55,7 @@ public class Stone : MonoBehaviour
                 Debug.Log("🔓 The door has open");
             }
         }
-    }
+        pass;
+    }*/
 }
 

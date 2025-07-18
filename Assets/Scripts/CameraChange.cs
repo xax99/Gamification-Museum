@@ -51,12 +51,12 @@ public class CameraChange : MonoBehaviour
         StaticValues.writing = loadDialog.activeSelf || saveDialog.activeSelf;
         if (!StaticValues.writing)
         {
-            if (Input.GetKey("m"))
+            if (Input.GetKeyDown(KeyCode.M))
             {
                 SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             }
 
-            if (Input.GetKey("t"))
+            if (Input.GetKeyDown(KeyCode.T))
             {
                 FPS.SetActive(false);
                 Cursor.visible = true;
@@ -65,11 +65,11 @@ public class CameraChange : MonoBehaviour
                 topView.enabled = true;
                 hand.SetActive(true);
                 addStoneMenu.SetActive(false);
-                saveButtons.SetActive(true);
+                //saveButtons.SetActive(true);
                 showMoreButtons.SetActive(true);
             }
 
-            if (Input.GetKey("p"))
+            if (Input.GetKeyDown(KeyCode.P))
             {
                 FPS.SetActive(true);
                 mainView.enabled = true;
@@ -88,15 +88,6 @@ public class CameraChange : MonoBehaviour
                 helpPane.SetActive(!helpPane.activeSelf);
             }
 
-            if (Input.GetKey("x"))
-            {
-                FPS.SetActive(false);
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                mainView.enabled = false;
-                Puzzle.enabled = true;
-                hand.SetActive(true);
-            }
         }
     }
 

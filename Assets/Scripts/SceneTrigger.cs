@@ -2,12 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
-using UnityEngine;
-using TMPro;
-using System.Collections;
 
 public class SceneTrigger : MonoBehaviour
 {

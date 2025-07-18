@@ -16,6 +16,8 @@ public class SceneScripts : MonoBehaviour
 {
 
     [SerializeField]
+    public LayerMask groundMask;
+    public Camera topCamera;
     public Transform spawnPoint;
     public GameObject showButton;
     public GameObject hideButton;
@@ -51,6 +53,7 @@ public class SceneScripts : MonoBehaviour
 
         if (StonesValues.stonesThumbs.Count == 0)
         {
+            Debug.Log("0000");
             StartCoroutine(this.stoneService.DownloadThumbs(this.constructAddStoneMenu));
         } 
         else
@@ -91,7 +94,10 @@ public class SceneScripts : MonoBehaviour
 
     public void SpawnStone(int stoneId)
     {
-        StartCoroutine(this.stoneService.SpawnStoneWithPositionAndRotation(stoneId, spawnPoint.position, addOffset: true));
+        Vector3 cameraPos = topCamera.transform.position;
+        cameraPos.z = cameraPos.z - 40f;
+        cameraPos.y = spawnPoint.position.y;
+        StartCoroutine(this.stoneService.SpawnStoneWithPositionAndRotation(stoneId, cameraPos, addOffset: true));
     }
 
     public void ShowMenus()
@@ -267,6 +273,12 @@ public class SceneScripts : MonoBehaviour
             {
                 break;
             }
+        }
+
+        if (sb.Length == 0)
+        {
+            Debug.LogWarning("GetStoneIndex: No se pudo obtener índice de " + stoneName);
+            return -1; // o lanza una excepción custom si prefieres
         }
 
         return int.Parse(sb.ToString());
